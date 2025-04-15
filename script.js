@@ -1,17 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Navigation links animation
+    // Navigation links handling - works for both internal and external links
     const navLinks = document.querySelectorAll('nav ul li a');
     
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            window.scrollTo({
-                top: targetSection.offsetTop - 80,
-                behavior: 'smooth'
-            });
+            // Only handle smooth scroll for internal links (#)
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetSection = document.querySelector(this.getAttribute('href'));
+                
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+            // External links will follow normally
         });
     });
 
